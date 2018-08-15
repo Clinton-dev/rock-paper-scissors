@@ -1,0 +1,108 @@
+ var playerScore = 0;
+ var computerScore = 0;
+ var btnRound = document.querySelector('#round');
+ var displayResult = document.querySelector('.displayResults');
+ var content = document.createElement('div');
+ content.classList.add('content');
+ displayResult.appendChild(content);
+ 
+  function computerPlay(){
+    let playerObj = ["rock","paper","scissors"];
+    let randPick = Math.floor(Math.random() * playerObj.length);
+    if (randPick == 1) {
+      return "paper";
+    }else if(randPick == 2){
+      return "scissors";
+    }else
+    {
+      return "rock";
+    }
+  
+  }
+  
+
+  var btnRock = document.querySelector('#rock');
+  btnRock.addEventListener('click',()=>{
+    var userPick = 'rock';
+    Game(userPick);
+    console.log(btnRock);
+ });
+
+  var btnScissors = document.querySelector('#scissors');
+   btnScissors.addEventListener('click',()=>{
+    var userPick = 'scissors';
+    Game(userPick);
+    console.log(btnScissors);
+ });
+
+ var btnPaper = document.querySelector('#paper');
+ btnPaper.addEventListener('click',()=>{
+    var userPick = 'paper';
+    Game(userPick);
+    console.log(btnPaper);
+ });
+  
+ btnRound.addEventListener('click',()=> location.reload());
+  function compareGuesses(guess1, guess2) {
+  //Create an alert message detailing the results
+  content.textContent = 'Player chose: " + guess1 + " and the computer chose: " + guess2 + "!"';
+  //First check for equality
+  if(guess1 === guess2) {
+    content.textContent ="You and the computer guessed the same thing! Go again, no score added!";
+    return 0;
+  }
+  //No check for guess1 winning
+  if(
+    (guess1 === "rock" && guess2 === "scissors") 
+                       ||
+    (guess1 === "paper" && guess2 === "rock")
+                       ||
+    (guess1 === "scissors" && guess2 === "paper"))
+    {
+   content.textContent = "Player wins the round!";
+    return 1;
+    }
+   content.textContent ="Computer wins the round!";
+   return 2;
+}
+
+function updateScores(result, points) {
+    if(result === 1) {
+      playerScore += points;
+    }
+    if(result === 2) {
+      computerScore += points;
+    }
+    if(result === 0) {
+      computerScore += 0;
+      playerScore += 0;
+    }
+}
+
+function clearScores() {
+  playerScore = 0;
+  computerScore = 0;
+}
+
+function Game(userPick) {
+  do {
+    var player   = userPick;
+    var computer = computerPlay();
+    var result = compareGuesses(player, computer);
+    updateScores(result, 5);
+  }while(playerScore <= 5 || computerScore <= 5);
+
+  if(playerScore > computerScore) {
+    content.textContent ="The player has " + playerScore + " points compared to the computer's " + computerScore + " points. So the player wins!";
+  }
+  else {
+    content.textContent ="The computer has " + computerScore + " points compared to the player's " + playerScore + " points. So the computer wins!";
+  }
+
+  clearScores();
+
+}
+
+
+
+  
